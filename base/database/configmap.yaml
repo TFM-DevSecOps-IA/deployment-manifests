@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-sql
+  labels:
+    app: mysql
+    component: database
+data:
+  init.sql: |
+    -- Create database
+    CREATE DATABASE IF NOT EXISTS padel_db;
+    USE padel_db;
+
+    -- Create tables
+    CREATE TABLE IF NOT EXISTS courts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        court_number INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS time_slots (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        start_time TIME NOT NULL,
+        end_time TIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY unique_time_slot (start_time, end_time)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS reservations (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        court_id INT NOT NULL,
+        time_slot_id INT NOT NULL,
+        reservation_date DATE NOT NULL,
+        dni VARCHAR(20) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        surname VARCHAR(100) NOT NULL,
+        email VARCHAR(100),
+        phone VARCHAR(20),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (court_id) REFERENCES courts(id) ON DELETE CASCADE,
+        FOREIGN KEY (time_slot_id) REFERENCES time_slots(id) ON DELETE CASCADE,
+        UNIQUE KEY unique_reservation (court_id, time_slot_id, reservation_date)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    -- Insert initial data
+    INSERT IGNORE INTO courts (name, court_number) VALUES
+        ('Pista Central', 1),
+        ('Pista Norte', 2),
+        ('Pista Sur', 3);
+
+    INSERT IGNORE INTO time_slots (start_time, end_time) VALUES
+        ('09:00:00', '10:30:00'),
+        ('10:30:00', '12:00:00'),
+        ('12:00:00', '13:30:00'),
+        ('16:00:00', '17:30:00'),
+        ('17:30:00', '19:00:00'),
+        ('19:00:00', '20:30:00'),
+        ('20:30:00', '22:00:00');
+
+    -- Create indexes for better performance
+    CREATE INDEX idx_reservation_date ON reservations(reservation_date);
+    CREATE INDEX idx_court_id ON reservations(court_id);
+    CREATE INDEX idx_time_slot_id ON reservations(time_slot_id);

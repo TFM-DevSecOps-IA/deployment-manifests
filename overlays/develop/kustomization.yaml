@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: padel-app-dev
+
+bases:
+- ../../base/database
+- ../../base/backend
+- ../../base/frontend
+
+resources:
+- ingress.yaml
+
+commonLabels:
+  environment: develop
+  managed-by: argocd
+
+namePrefix: dev-
+
+replicas:
+- name: backend
+  count: 1
+- name: frontend
+  count: 1
