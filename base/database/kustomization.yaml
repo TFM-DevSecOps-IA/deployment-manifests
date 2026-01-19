@@ -9,6 +9,7 @@ resources:
 - pvc.yaml
 - configmap.yaml
 
-commonLabels:
-  app.kubernetes.io/name: padel-app
-  app.kubernetes.io/component: database
+labels:
+- pairs:
+    app.kubernetes.io/name: padel-app
+    app.kubernetes.io/component: database

@@ -7,9 +7,10 @@ resources:
 - deployment.yaml
 - service.yaml
 
-commonLabels:
-  app.kubernetes.io/name: padel-app
-  app.kubernetes.io/component: backend
+labels:
+- pairs:
+    app.kubernetes.io/name: padel-app
+    app.kubernetes.io/component: backend
 
 images:
 - name: victor2campos/ci-backend

@@ -3,14 +3,13 @@ kind: Kustomization
 
 namespace: padel-app
 
-bases:
+resources:
 - ../../base/database
 - ../../base/backend
 - ../../base/frontend
-
-resources:
 - ingress.yaml
 
-commonLabels:
-  environment: production
-  managed-by: argocd
+labels:
+- pairs:
+    environment: production
+    managed-by: argocd
