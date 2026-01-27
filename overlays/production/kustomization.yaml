@@ -13,3 +13,9 @@ labels:
 - pairs:
     environment: production
     managed-by: argocd
+
+images:
+- name: victor2campos/ci-backend
+  newTag: latest
+- name: victor2campos/ci-frontend
+  newTag: latest

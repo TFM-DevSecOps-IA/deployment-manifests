@@ -23,3 +23,9 @@ replicas:
   count: 1
 - name: frontend
   count: 1
+
+images:
+- name: victor2campos/ci-backend
+  newTag: latest
+- name: victor2campos/ci-frontend
+  newTag: latest
