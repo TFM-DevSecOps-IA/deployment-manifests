@@ -7,7 +7,9 @@ resources:
 - ../../base/database
 - ../../base/backend
 - ../../base/frontend
-- ingress.yaml
+- ingressroute.yaml
+
+namePrefix: dev-
 
 labels:
 - pairs:

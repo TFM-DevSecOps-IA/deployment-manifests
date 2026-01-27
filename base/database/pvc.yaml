@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: azure-disk
+  # storageClassName: azure-disk  # Descomentar y ajustar según tu proveedor
   resources:
     requests:
       storage: 10Gi

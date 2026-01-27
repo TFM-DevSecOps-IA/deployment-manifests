@@ -24,13 +24,25 @@ spec:
           name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "root_password"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_DATABASE
-          value: "padel_db"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
         - name: MYSQL_USER
-          value: "padel_user"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
         - name: MYSQL_PASSWORD
-          value: "padel_password"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql

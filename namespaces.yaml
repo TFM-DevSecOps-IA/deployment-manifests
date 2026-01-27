@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: padel-app-prod
+  labels:
+    name: padel-app-prod
+    environment: production
+    managed-by: argocd
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: padel-app-dev
+  labels:
+    name: padel-app-dev
+    environment: development
+    managed-by: argocd

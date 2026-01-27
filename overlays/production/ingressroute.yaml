@@ -1,0 +1,43 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: padel-app-ingressroute
+  namespace: padel-app-prod
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/frontend`)
+    kind: Rule
+    services:
+    - name: frontend
+      port: 80
+    middlewares:
+    - name: strip-frontend-prefix
+  - match: PathPrefix(`/backend`)
+    kind: Rule
+    services:
+    - name: backend
+      port: 5000
+    middlewares:
+    - name: strip-backend-prefix
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-frontend-prefix
+  namespace: padel-app-prod
+spec:
+  stripPrefix:
+    prefixes:
+      - /frontend
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-backend-prefix
+  namespace: padel-app-prod
+spec:
+  stripPrefix:
+    prefixes:
+      - /backend

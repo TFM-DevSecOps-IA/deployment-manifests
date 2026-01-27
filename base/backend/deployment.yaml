@@ -30,11 +30,20 @@ spec:
         - name: DB_HOST
           value: "mysql"
         - name: DB_USER
-          value: "padel_user"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
         - name: DB_PASSWORD
-          value: "padel_password"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
         - name: DB_NAME
-          value: "padel_db"
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
         livenessProbe:
           httpGet:
             path: /health
